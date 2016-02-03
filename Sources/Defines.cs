@@ -10,7 +10,7 @@ namespace SmartEditor
 {
     class Defines
     {
-        public static string Version = "V0.1.2";
+        public static string Version = "V0.1.3";
 
         public static Stack<string> KeyWords = new Stack<string>();
 

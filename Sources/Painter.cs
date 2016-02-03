@@ -47,7 +47,7 @@ namespace SmartEditor
             for (int i = StartLine; i <= FinalLine; i++) this.PaintLine(i, ref RTB); //对每行着色
             RTB.SelectionLength = 0;
             RTB.SelectionStart = OriSelectionStart; //光标归位
-            RTB.SelectionColor = Color.Empty;
+            RTB.SelectionColor = Color.Black;
             SendMessage(RTB.Handle, 0x0B, 1, 0); //第二轮加工结束，允许组件重画
             RTB.Refresh();
         }
@@ -69,6 +69,7 @@ namespace SmartEditor
 
                 while (Strpos >= 0
                     && LineStr[Strpos] != ' '
+                    && LineStr[Strpos] != '\t'
                     && LineStr[Strpos] != ','
                     && LineStr[Strpos] != '.'
                     && LineStr[Strpos] != ';'
@@ -79,11 +80,15 @@ namespace SmartEditor
                     && LineStr[Strpos] != '-'
                     && LineStr[Strpos] != '*'
                     //  && LineStr[Strpos] != '/'
+                    && LineStr[Strpos] != '>'
+                    && LineStr[Strpos] != '<'
                     && LineStr[Strpos] != '!'
                     && LineStr[Strpos] != '|'
                     && LineStr[Strpos] != '&'
                     && LineStr[Strpos] != '['
                     && LineStr[Strpos] != ']'
+                    && LineStr[Strpos] != '{'
+                    && LineStr[Strpos] != '}'
                     )
                 {
 
@@ -91,7 +96,6 @@ namespace SmartEditor
                     {
                         if (Strpos >= 0 && LineStr[Strpos - 1] == '/')
                         {
-                            //Console.WriteLine("StartIndex + Strpos:" + (StartIndex + Strpos) + " LineStr.Length - Strpos + 1:" + (LineStr.Length - Strpos + 1));
                             RTB.Select(StartIndex + Strpos - 1, LineStr.Length - Strpos + 1);
                             RTB.SelectionColor = Color.Green;
                             Strpos--;
@@ -101,7 +105,7 @@ namespace SmartEditor
                         else { break; }
                     }
 
-                    if (LineStr[Strpos] == '\"') //处理字符串
+                    if (LineStr[Strpos] == '\"') //需要单独处理字符串，因为可能包含空格，注释符等特殊符号
                     {
                         t += LineStr[Strpos];
                         if (--Strpos < 0) break; //处理第一个字符为"的特殊情况
@@ -118,7 +122,7 @@ namespace SmartEditor
                                 Strpos--;
                             }
                         }
-                        else { t = null; Strpos++; } //此种情况不是字符串
+                        else { continue; } //此种情况不是字符串
                     }
 
                     t += LineStr[Strpos];
