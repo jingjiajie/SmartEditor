@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Xml;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,40 @@ namespace SmartEditor
                 FS.Close();
                 return;
             }catch(Exception ex) { throw ex; }
+        }
+
+        public void LoadLanguageConf(string LanguageName)
+        {
+            string FilePath = Defines.XMLDirectory + LanguageName + ".xml";
+            Defines.CurrentLanguage = LanguageName;
+            Defines.KeyWords.Clear();
+            XmlDocument XmlDoc = new XmlDocument();
+            try
+            {
+                XmlDoc.Load(FilePath);
+                XmlNode RootNode = XmlDoc.SelectSingleNode("/Configuration");
+                XmlNodeList KeyWordList = RootNode.SelectNodes("KeyWords/KeyWord");
+                for (int i = 0; i < KeyWordList.Count; i++) Defines.KeyWords.Add(KeyWordList[i].InnerText);
+            }
+            catch(Exception ex) { throw ex; }
+            
+        }
+
+        public void LoadSettings(string SettingFilePath)
+        {
+            XmlDocument XmlDoc = new XmlDocument();
+            try
+            {
+                XmlDoc.Load(SettingFilePath);
+                XmlNode RootNode = XmlDoc.SelectSingleNode("/Settings");
+                XmlNodeList SupportedLanguageList = RootNode.SelectNodes("SupportedLanguages/Language");
+                Defines.SupportedLanguages.Clear();
+                for (int i = 0; i < SupportedLanguageList.Count; i++)
+                {
+                    Defines.SupportedLanguages.Add(SupportedLanguageList[i].InnerText);
+                }
+            }
+            catch (Exception ex) { throw ex; }
         }
     }
 }

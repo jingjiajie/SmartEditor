@@ -63,6 +63,12 @@
   <ItemGroup>
     <Compile Include="Defines.cs" />
     <Compile Include="Files.cs" />
+    <Compile Include="Form_About.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_About.Designer.cs">
+      <DependentUpon>Form_About.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Find.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     <Compile Include="Painter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form_About.resx">
+      <DependentUpon>Form_About.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Find.resx">
       <DependentUpon>Form_Find.cs</DependentUpon>
     </EmbeddedResource>
@@ -116,6 +125,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CSharp.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -23,11 +23,15 @@ namespace SmartEditor
 
         }
 
-        public void Paint(int Line, ref RichTextBox RTB)
+        public void Repaint(RichTextBox RTB)
         {
-            this.Paint(Line, Line,ref RTB);
+            this.Paint(0,RTB.Lines.Length,RTB);
         }
-        public void Paint(int StartLine, int FinalLine, ref RichTextBox RTB)
+        public void Paint(int Line, RichTextBox RTB)
+        {
+            this.Paint(Line, Line,RTB);
+        }
+        public void Paint(int StartLine, int FinalLine, RichTextBox RTB)
         {
             if(StartLine < 0 || FinalLine < 0)
             {
