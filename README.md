@@ -20,6 +20,7 @@ After compiling, don't forget to copy the Config directory to the same directory
 #Histories
 
 V0.1.4 	Added more supported language.
+	Changed the icon.
 	Added the "About" Window. 2016/2/5
 
 V0.1.3  Fixed bugs in highlighting string-like words with only one quotation mark.
