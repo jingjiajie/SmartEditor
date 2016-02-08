@@ -1,5 +1,30 @@
 <!-- C# Language Configuration-->
 <Configuration Language="CSharp">
+
+<!-- 关键字：部分关键字需要转义字符替代 -->
+<Operators>
+<Operator>,</Operator>
+<Operator>.</Operator>
+<Operator>:</Operator>
+<Operator>;</Operator>
+<Operator>(</Operator>
+<Operator>)</Operator>
+<Operator>=</Operator>
+<Operator>+</Operator>
+<Operator>-</Operator>
+<Operator>*</Operator>
+//<Operator>/</Operator>
+<Operator>&gt;</Operator>
+<Operator>&lt;</Operator>
+<Operator>!</Operator>
+<Operator>|</Operator>
+<Operator>&amp;</Operator>
+<Operator>[</Operator>
+<Operator>]</Operator>
+<Operator>{</Operator>
+<Operator>}</Operator>
+</Operators>
+
 <KeyWords>
 <KeyWord>abstract</KeyWord>
 <KeyWord>as</KeyWord>

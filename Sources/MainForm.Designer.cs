@@ -41,10 +41,10 @@
             this.FindMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.LanguageBox = new System.Windows.Forms.ToolStripComboBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.LineNumberStrip = new System.Windows.Forms.ToolStripStatusLabel();
             this.ColumnNumberStrip = new System.Windows.Forms.ToolStripStatusLabel();
-            this.LanguageBox = new System.Windows.Forms.ToolStripComboBox();
             this.menuStrip1.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -52,7 +52,7 @@
             // richTextBox1
             // 
             this.richTextBox1.HideSelection = false;
-            this.richTextBox1.Location = new System.Drawing.Point(-1, 49);
+            this.richTextBox1.Location = new System.Drawing.Point(0, 49);
             this.richTextBox1.Name = "richTextBox1";
             this.richTextBox1.Size = new System.Drawing.Size(1387, 675);
             this.richTextBox1.TabIndex = 0;
@@ -95,7 +95,7 @@
             this.OpenMenuItem.Name = "OpenMenuItem";
             this.OpenMenuItem.ShortcutKeyDisplayString = "";
             this.OpenMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.OpenMenuItem.Size = new System.Drawing.Size(269, 38);
+            this.OpenMenuItem.Size = new System.Drawing.Size(253, 38);
             this.OpenMenuItem.Tag = "";
             this.OpenMenuItem.Text = "打开";
             this.OpenMenuItem.Click += new System.EventHandler(this.OpenMenuItem_Click);
@@ -104,27 +104,27 @@
             // 
             this.SubmitMenuItem.Name = "SubmitMenuItem";
             this.SubmitMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.SubmitMenuItem.Size = new System.Drawing.Size(269, 38);
+            this.SubmitMenuItem.Size = new System.Drawing.Size(253, 38);
             this.SubmitMenuItem.Text = "保存";
             this.SubmitMenuItem.Click += new System.EventHandler(this.SubmitMenuItem_Click);
             // 
             // SaveAsMenuItem
             // 
             this.SaveAsMenuItem.Name = "SaveAsMenuItem";
-            this.SaveAsMenuItem.Size = new System.Drawing.Size(269, 38);
+            this.SaveAsMenuItem.Size = new System.Drawing.Size(253, 38);
             this.SaveAsMenuItem.Text = "另存为";
             this.SaveAsMenuItem.Click += new System.EventHandler(this.SaveAsMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(266, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(250, 6);
             // 
             // ExitMenuItem
             // 
             this.ExitMenuItem.Name = "ExitMenuItem";
             this.ExitMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.ExitMenuItem.Size = new System.Drawing.Size(269, 38);
+            this.ExitMenuItem.Size = new System.Drawing.Size(253, 38);
             this.ExitMenuItem.Text = "退出";
             this.ExitMenuItem.Click += new System.EventHandler(this.ExitMenuItem_Click);
             // 
@@ -159,6 +159,13 @@
             this.AboutMenuItem.Text = "关于 SmartEditor";
             this.AboutMenuItem.Click += new System.EventHandler(this.AboutMenuItem_Click);
             // 
+            // LanguageBox
+            // 
+            this.LanguageBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.LanguageBox.Name = "LanguageBox";
+            this.LanguageBox.Size = new System.Drawing.Size(121, 39);
+            this.LanguageBox.SelectedIndexChanged += new System.EventHandler(this.LanguageBox_SelectedIndexChanged);
+            // 
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
@@ -182,13 +189,6 @@
             this.ColumnNumberStrip.Name = "ColumnNumberStrip";
             this.ColumnNumberStrip.Size = new System.Drawing.Size(100, 31);
             this.ColumnNumberStrip.Text = "列号：0";
-            // 
-            // LanguageBox
-            // 
-            this.LanguageBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.LanguageBox.Name = "LanguageBox";
-            this.LanguageBox.Size = new System.Drawing.Size(121, 39);
-            this.LanguageBox.SelectedIndexChanged += new System.EventHandler(this.LanguageBox_SelectedIndexChanged);
             // 
             // MainForm
             // 

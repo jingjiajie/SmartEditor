@@ -19,10 +19,10 @@ namespace SmartEditor
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Files F = new Files();
-            try
+          /*  try
             {
                 F.LoadSettings(Defines.SettingFilePath);
-            }catch(Exception ex) { MessageBox.Show("读取配置文件失败。错误信息：\n" + ex.Message, "错误提示"); }
+            }catch(Exception ex) { MessageBox.Show("读取配置文件失败。错误信息：\n" + ex.Message, "错误提示"); } */
             Application.Run(new MainForm());
         }
 

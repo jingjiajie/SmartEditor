@@ -23,7 +23,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>0.1.3.%2a</ApplicationVersion>
+    <ApplicationVersion>0.1.5.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -75,6 +75,9 @@
     <Compile Include="Form_Find.Designer.cs">
       <DependentUpon>Form_Find.cs</DependentUpon>
     </Compile>
+    <Compile Include="Lexers\CPPLexer.cs" />
+    <Compile Include="Lexers\CSharpLexer.cs" />
+    <Compile Include="Lexers\Lexer.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

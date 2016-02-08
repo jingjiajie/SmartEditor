@@ -19,7 +19,7 @@ namespace SmartEditor
         [DllImport("user32.dll", EntryPoint = "SendMessage")]
         private static extern int SendMessage(IntPtr hwnd, int wMsg, int wParam, int lParam);
 
-        private Painter P; //Painter类用来给RichTextBox着色
+        private Painter painter; //Painter类用来给RichTextBox着色
         private int SelectionStartLine = 0; //RichTextBox当前行号
         private bool _IfSaved = false; //是否已经保存文件
         private bool IfSaved
@@ -33,11 +33,16 @@ namespace SmartEditor
             }
         }
 
-
-        private void SaveFileAs() //另存为文件
+        private void SaveFileAs()
+        {
+            this.SaveFileAs("另存为");
+        }
+        private void SaveFileAs(string title) //另存为文件
         {
             SaveFileDialog FileExplorer = new SaveFileDialog();
-            FileExplorer.Filter = "所有文件|*.*";
+            FileExplorer.Title = title;
+            FileExplorer.FileName = Files.CurrentFile;
+            FileExplorer.Filter = "所有文件|*.*|C#源文件|*.cs|C++源文件|*.cpp";
             if (FileExplorer.ShowDialog() != DialogResult.OK) return;
             string FilePath = FileExplorer.FileName;
             byte[] FileContent = System.Text.Encoding.Default.GetBytes(this.richTextBox1.Text);
@@ -55,11 +60,8 @@ namespace SmartEditor
             string FilePath = null;
             if (Files.CurrentFile == null)
             {
-                SaveFileDialog FileExplorer = new SaveFileDialog();
-                FileExplorer.Title = "保存";
-                FileExplorer.Filter = "所有文件|*.*";
-                if (FileExplorer.ShowDialog() != DialogResult.OK) return;
-                FilePath = FileExplorer.FileName;
+                this.SaveFileAs();
+                return;
             }
             else { FilePath = Files.CurrentFile; }
             byte[] FileContent = System.Text.Encoding.Default.GetBytes(this.richTextBox1.Text);
@@ -73,68 +75,7 @@ namespace SmartEditor
             catch (Exception ex) { MessageBox.Show("保存文件失败：\n" + ex.Message, "错误消息", MessageBoxButtons.OK); }
         }
 
-
-        private void ChangeCurrentLanguage(string LanguageName)
-        {
-            try
-            {
-                (new Files()).LoadLanguageConf(LanguageName);
-                (new Painter()).Repaint(this.richTextBox1);
-            }
-            catch(Exception ex) { MessageBox.Show(this, "读取语言配置文件失败,无法对语法进行着色。错误信息：\n" + ex.Message, "错误提示"); }
-        }
-        public MainForm()
-        {
-            InitializeComponent();
-            this.Text = " New File * - "+Defines.DefaultMainFormTitle;
-            //   Control.CheckForIllegalCrossThreadCalls = false;
-            for (int i = 0; i < Defines.SupportedLanguages.Count; i++)
-            {
-                string t = null;
-                switch (t = Defines.SupportedLanguages[i])
-                {
-                    case "CSharp": { this.LanguageBox.Items.Add("C#"); break; }
-                    case "CPP": { this.LanguageBox.Items.Add("C++"); break; }
-                    default: { this.LanguageBox.Items.Add(t); break; }
-                }
-            }
-            if(Defines.SupportedLanguages.Count != 0)
-            {
-                this.LanguageBox.SelectedIndex = 0;
-            }
-            this.richTextBox1.Width = this.Width - 16;
-            this.richTextBox1.Height = this.Height - 83;
-            this.richTextBox1.AcceptsTab = true;
-            
-            this.P = new Painter();
-            
-        }
-
-        private void richTextBox1_TextChanged(object sender, EventArgs e)
-        {
-            //RichTextBox的行号从0开始。
-            this.IfSaved = false;
-            int CurrentLine = this.richTextBox1.GetLineFromCharIndex(this.richTextBox1.SelectionStart);
-            if(CurrentLine>=this.SelectionStartLine) P.Paint(this.SelectionStartLine,CurrentLine,this.richTextBox1);
-            this.SelectionStartLine = CurrentLine;
-        }
-        private void MainForm_SizeChanged(object sender, EventArgs e)
-        {
-            this.richTextBox1.Width = this.Width - 16;
-            this.richTextBox1.Height = this.Height - 83;
-        }
-
-        private void SubmitMenuItem_Click(object sender, EventArgs e)
-        {
-            this.SaveFile();
-        }
-
-        private void ExitMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        private void OpenMenuItem_Click(object sender, EventArgs e)
+        private void OpenFile()
         {
             if (this.IfSaved == false)
             {
@@ -149,9 +90,8 @@ namespace SmartEditor
                 }
             }
             OpenFileDialog FileExplorer = new OpenFileDialog();
-            FileExplorer.Filter = "所有文件|*.*";
-            if(FileExplorer.ShowDialog()!=DialogResult.OK) return;
-            FileExplorer.ShowDialog();
+            FileExplorer.Filter = "所有文件|*.*|C#源文件|*.cs|C++源文件|*.cpp";
+            if (FileExplorer.ShowDialog() != DialogResult.OK) return;
             string FilePath = FileExplorer.FileName;
             Files F = new Files();
             try
@@ -162,11 +102,67 @@ namespace SmartEditor
                 this.Text = Files.CurrentFile + " - " + Defines.DefaultMainFormTitle;
                 this.IfSaved = true; //打开文件等效于已经保存
             }
-            catch(Exception ex) { MessageBox.Show("打开文件失败：\n" + ex.Message, "错误消息", MessageBoxButtons.OK); }
+            catch (Exception ex) { MessageBox.Show("打开文件失败：\n" + ex.Message, "错误消息", MessageBoxButtons.OK); }
 
+            switch(Files.CurrentFileExt)
+            {
+                case ".cpp": { this.LanguageBox.SelectedIndex=1;this.Focus(); break; }
+                case ".cs": { this.LanguageBox.SelectedIndex=0;this.Focus(); break; }
+            }
+        }
+        private void ChangeCurrentLanguage(string LanguageName)
+        {
+  
+                Defines.CurrentLanguage = LanguageName;
+                this.painter = new Painter(LanguageName,this);
+                this.painter.Repaint(this.richTextBox1);
+        }
+        public MainForm()
+        {
+            InitializeComponent();
+            this.Text = " New File * - "+Defines.DefaultMainFormTitle;
+            //   Control.CheckForIllegalCrossThreadCalls = false;
+            this.LanguageBox.Items.Add("C#");
+            this.LanguageBox.Items.Add("C/C++");
+            this.LanguageBox.SelectedIndex = 0;
+
+            this.richTextBox1.Width = this.Width - 16;
+            this.richTextBox1.Height = this.Height - 83;
+            this.richTextBox1.AcceptsTab = true;
+            
+            
         }
 
-        private void richTextBox1_SelectionChanged(object sender, EventArgs e)
+        public void richTextBox1_TextChanged(object sender, EventArgs e)
+        {
+            //RichTextBox的行号从0开始。
+            this.IfSaved = false;
+            int CurrentLine = this.richTextBox1.GetLineFromCharIndex(this.richTextBox1.SelectionStart);
+            if(CurrentLine>=this.SelectionStartLine) this.painter.Paint(this.SelectionStartLine,CurrentLine,this.richTextBox1);
+            this.SelectionStartLine = CurrentLine;
+        }
+        private void MainForm_SizeChanged(object sender, EventArgs e)
+        {
+            this.richTextBox1.Width = this.Width - 16;
+            this.richTextBox1.Height = this.Height - 83;
+        } 
+
+        private void SubmitMenuItem_Click(object sender, EventArgs e)
+        {
+            this.SaveFile();
+        }
+
+        private void ExitMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void OpenMenuItem_Click(object sender, EventArgs e)
+        {
+            this.OpenFile();
+        }
+
+        public void richTextBox1_SelectionChanged(object sender, EventArgs e)
         {
             int SelectionLine = richTextBox1.GetLineFromCharIndex(richTextBox1.SelectionStart);
             int StartIndex = richTextBox1.GetFirstCharIndexOfCurrentLine();
@@ -227,7 +223,7 @@ namespace SmartEditor
             switch (this.LanguageBox.Text)
             {
                 case "C#": { LanguageName = "CSharp"; break; }
-                case "C++": { LanguageName = "CPP"; break; }
+                case "C/C++": { LanguageName = "CPP"; break; }
                 default: { LanguageName = this.LanguageBox.Text; break; }
             }
             this.ChangeCurrentLanguage(LanguageName);
