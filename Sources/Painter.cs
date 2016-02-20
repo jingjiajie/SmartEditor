@@ -28,6 +28,7 @@ namespace SmartEditor
             {
                 case "CPP": { this.lexer = new CPPLexer();break; }
                 case "CSharp": { this.lexer = new CSharpLexer(); break; }
+                case "SmartZ": { this.lexer = new SmartZLexer();break; }
                 default: break;
             }
         }

@@ -11,6 +11,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Diagnostics;
 
 namespace SmartEditor
 {
@@ -35,14 +36,14 @@ namespace SmartEditor
 
         private void SaveFileAs()
         {
-            this.SaveFileAs("另存为");
+            this.SaveFileAs("另存为1");
         }
         private void SaveFileAs(string title) //另存为文件
         {
             SaveFileDialog FileExplorer = new SaveFileDialog();
             FileExplorer.Title = title;
             FileExplorer.FileName = Files.CurrentFile;
-            FileExplorer.Filter = "所有文件|*.*|C#源文件|*.cs|C++源文件|*.cpp";
+            FileExplorer.Filter = "所有文件|*.*|Smart Z源文件|*.zs|C#源文件|*.cs|C++源文件|*.cpp";
             if (FileExplorer.ShowDialog() != DialogResult.OK) return;
             string FilePath = FileExplorer.FileName;
             byte[] FileContent = System.Text.Encoding.Default.GetBytes(this.richTextBox1.Text);
@@ -90,7 +91,7 @@ namespace SmartEditor
                 }
             }
             OpenFileDialog FileExplorer = new OpenFileDialog();
-            FileExplorer.Filter = "所有文件|*.*|C#源文件|*.cs|C++源文件|*.cpp";
+            FileExplorer.Filter = "所有文件|*.*|Smart Z源文件|*.zs|C#源文件|*.cs|C++源文件|*.cpp";
             if (FileExplorer.ShowDialog() != DialogResult.OK) return;
             string FilePath = FileExplorer.FileName;
             Files F = new Files();
@@ -108,6 +109,8 @@ namespace SmartEditor
             {
                 case ".cpp": { this.LanguageBox.SelectedIndex=1;this.Focus(); break; }
                 case ".cs": { this.LanguageBox.SelectedIndex=0;this.Focus(); break; }
+                case ".zs": { this.LanguageBox.SelectedIndex = 2; this.Focus(); break; }
+
             }
         }
         private void ChangeCurrentLanguage(string LanguageName)
@@ -124,7 +127,8 @@ namespace SmartEditor
             //   Control.CheckForIllegalCrossThreadCalls = false;
             this.LanguageBox.Items.Add("C#");
             this.LanguageBox.Items.Add("C/C++");
-            this.LanguageBox.SelectedIndex = 0;
+            this.LanguageBox.Items.Add("Smart Z");
+            this.LanguageBox.SelectedIndex = 2;
 
             this.richTextBox1.Width = this.Width - 16;
             this.richTextBox1.Height = this.Height - 83;
@@ -222,11 +226,37 @@ namespace SmartEditor
             string LanguageName = null;
             switch (this.LanguageBox.Text)
             {
-                case "C#": { LanguageName = "CSharp"; break; }
-                case "C/C++": { LanguageName = "CPP"; break; }
+                case "C#": { LanguageName = "CSharp"; this.StartMenuItem.Enabled = false; break; }
+                case "C/C++": { LanguageName = "CPP"; this.StartMenuItem.Enabled = false; break; }
+                case "Smart Z": { LanguageName = "SmartZ"; this.StartMenuItem.Enabled = true; break; }
                 default: { LanguageName = this.LanguageBox.Text; break; }
             }
             this.ChangeCurrentLanguage(LanguageName);
+        }
+
+        private void LanguageBox_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void StartMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.IfSaved == false) this.SaveFile();
+            if (this.IfSaved == false) return;
+            else
+            {
+                Process proc = new Process();
+                if (Defines.CurrentLanguage == "SmartZ")
+                {
+                    try
+                    {
+                        proc.StartInfo.FileName = Defines.CompilerFilePath + "Smart Z\\ZRunner.exe";
+                        proc.StartInfo.Arguments = '\"'+Files.CurrentFile+'\"';
+                        proc.Start();
+                    }
+                    catch (Exception ex) { MessageBox.Show("打开编译器失败，错误信息：\n" + ex.Message); }
+                }
+            }
         }
     }
 }

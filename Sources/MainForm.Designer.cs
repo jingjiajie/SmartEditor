@@ -39,6 +39,8 @@
             this.ExitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.EditMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.FindMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.RunMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.StartMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.HelpMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.AboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.LanguageBox = new System.Windows.Forms.ToolStripComboBox();
@@ -70,6 +72,7 @@
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.FileMenuItem,
             this.EditMenuItem,
+            this.RunMenuItem,
             this.HelpMenuItem,
             this.LanguageBox});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
@@ -144,6 +147,23 @@
             this.FindMenuItem.Text = "查找";
             this.FindMenuItem.Click += new System.EventHandler(this.FindMenuItem_Click);
             // 
+            // RunMenuItem
+            // 
+            this.RunMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.StartMenuItem});
+            this.RunMenuItem.Name = "RunMenuItem";
+            this.RunMenuItem.Size = new System.Drawing.Size(74, 39);
+            this.RunMenuItem.Text = "运行";
+            // 
+            // StartMenuItem
+            // 
+            this.StartMenuItem.Enabled = false;
+            this.StartMenuItem.Name = "StartMenuItem";
+            this.StartMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.StartMenuItem.Size = new System.Drawing.Size(250, 38);
+            this.StartMenuItem.Text = "开始运行";
+            this.StartMenuItem.Click += new System.EventHandler(this.StartMenuItem_Click);
+            // 
             // HelpMenuItem
             // 
             this.HelpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -165,6 +185,7 @@
             this.LanguageBox.Name = "LanguageBox";
             this.LanguageBox.Size = new System.Drawing.Size(121, 39);
             this.LanguageBox.SelectedIndexChanged += new System.EventHandler(this.LanguageBox_SelectedIndexChanged);
+            this.LanguageBox.Click += new System.EventHandler(this.LanguageBox_Click);
             // 
             // statusStrip1
             // 
@@ -232,6 +253,8 @@
         private System.Windows.Forms.ToolStripMenuItem HelpMenuItem;
         private System.Windows.Forms.ToolStripMenuItem AboutMenuItem;
         private System.Windows.Forms.ToolStripComboBox LanguageBox;
+        private System.Windows.Forms.ToolStripMenuItem RunMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem StartMenuItem;
     }
 }
 
